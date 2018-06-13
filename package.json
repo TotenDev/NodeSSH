@@ -4,22 +4,59 @@
   "version": "0.6.0-Alpha",
   "author": "tsmith",
   "repository": "git@github.com:neiker/NodeSSH.git",
-  "maintainers": [ 
-    { "name": "Javier Alvarez", "email": "neiker@gmail.com" }
+  "maintainers": [
+    {
+      "name": "Javier Alvarez",
+      "email": "neiker@gmail.com"
+    }
   ],
-  "devDependencies": { "tap": "1.3.x" },
-  "scripts": {
-    "test": "tap test/"
+  "devDependencies": {
+    "tap": "1.3.x"
   },
-  "license":"MIT",
-  "contributors": [ 
-    { "name": "tsmith", "email": "" },
-    { "name": "Brandon Myers", "email": "trakkasure@gmail.com"},
-    { "name": "Javier Alvarez", "email": "neiker@gmail.com" },
-    { "name": "TotenDev LDTA", "email": "support@totendev.com" },
-    { "name": "Gabriel Pacheco", "email": "gabriel@totendev.com" }
+  "scripts": {
+    "test": "tap test/",
+    "wrapperTest": "mocha test/promiseWrapper.spec.js"
+  },
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "tsmith",
+      "email": ""
+    },
+    {
+      "name": "Brandon Myers",
+      "email": "trakkasure@gmail.com"
+    },
+    {
+      "name": "Javier Alvarez",
+      "email": "neiker@gmail.com"
+    },
+    {
+      "name": "TotenDev LDTA",
+      "email": "support@totendev.com"
+    },
+    {
+      "name": "Gabriel Pacheco",
+      "email": "gabriel@totendev.com"
+    }
   ],
-  "keywords": ["ssh","sshclient","remote","cli","net","expect"],
+  "keywords": [
+    "ssh",
+    "sshclient",
+    "remote",
+    "cli",
+    "net",
+    "expect"
+  ],
   "main": "lib/index.js",
-  "engines": { "node": ">= 0.2.0" }
+  "engines": {
+    "node": ">= 0.2.0"
+  },
+  "dependencies": {
+    "debug": "^3.1.0",
+    "shell-escape": "^0.2.0"
+  },
+  "devDependencies": {
+    "mocha": "^5.0.4"
+  }
 }

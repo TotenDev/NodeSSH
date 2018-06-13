@@ -25,8 +25,9 @@ Download and install dependencies
 
 ## Usage
 
-    var options = { host:"localhost", username:"USER", password:"PASS" };
-    var SSHClient = require("NodeSSH")(options);
+    const options = { host:"localhost", username:"USER", password:"PASS" };
+    const NodeSSH = require("NodeSSH")
+    const SSHClient = NodeSSH.NodeSSH(options);
     SSHClient.on("connected",function (host) {
 	    SSHClient.exec("pwd",function(data,lastChunk){ 
 	    	console.log("Server response:",data);
@@ -37,7 +38,35 @@ Download and install dependencies
 
 More samples at `samples/` directory.
 
+Alternatively use the promiseWrapper
+
+    const options = {
+        host: "HOST",
+        username: "USERNAME",
+        password: "PASS"
+    };
+    
+    const SSH = require('NodeSSH');
+
+    var mySSH = new SSH.promiseWrapper(options);
+    mySSH.connect()
+      .then((result) => {
+        var options = {};
+        options.cwd = '/usr';
+        return mySSH.execCommand('ls', options);
+      })
+      .then((result) => {
+        console.log('contents of /user/ is', result.stdout)
+        return mySSH.dispose();
+      }).then((string) => {
+        console.log('SSH session has been closed successfully')
+        done();
+      })
+      .catch(done);
+
 ## Methods
+
+### Node-SSH
 
 #### Initialize Wrapper
 
@@ -118,7 +147,7 @@ Sample:
 
 ## Events
 
-####Connected 
+#### Connected 
 This event will be fired when SSH Session has being established. You must execute `.connect()` function to start connection process.
 
 Event-String: `connected`
@@ -130,7 +159,7 @@ Sample:
 		console.log("Connected to host:",host);
 	});
 ---
-####Closed 
+#### Closed 
 This event will be fired when SSH Session has being closed (with success or not). 
 If all goes without errors, you must execute `.close()` function to close connection session.
 
@@ -147,7 +176,7 @@ Sample:
 		}
 	});	
 ---
-####Output 
+#### Output 
 This event will be fired when any command is outputed by remote connection (even ours that is outputed by ssh session).
 
 Event-String: `output`
@@ -161,7 +190,7 @@ Sample:
 		}else { SSHClient.close(); }
 	});
 ---
-####StdErr 
+#### StdErr 
 This event will be fired when any errored command is outputted by remote connection.
 
 Event-String: `stderr`
@@ -173,6 +202,57 @@ Sample:
 		console.log("stderr-> "+err);
 	});
 
+
+### promiseWrapper
+
+For options parameters see Node-SSH above
+
+For debug run with `DEBUG=promiseWrapper`
+
+To sanity test set DONOTCOMMIT.js and `npm run wrapperTest`
+
+#### constructor
+Initialise the object, requires options
+
+Sample:
+
+    var options = {
+        host: "HOST",
+        username: "USERNAME",
+        password: "PASS"
+    };
+    let mySSH = new SSH.promiseWrapper(options);
+
+
+#### connect 
+Connect to the host specified in the constructor
+
+Sample: 
+    
+    mySSH.connect().then((result) => {
+        console.log(result);
+    });
+    
+#### execCommand
+Execute a bash command on the host. Requires the SSH connection to be active
+
+Sample:
+
+    var cmdOptions = {
+        cwd: /home
+    }
+    // Prints the contents of /home
+    mySSH.exec('ls', cmdOptions);
+    
+#### dispose
+Dispose of the connection. Can reconnect by calling connect();
+
+Sample:
+    
+    mySSH.dispose().then((result) => {
+        console.log('Attempting to close SSH session\n', result)
+    });
+        
 ## Contributing
 
 1. Fork it
